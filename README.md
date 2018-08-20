@@ -1,2 +1,4 @@
-# session
-SESSION 模块
+SESSION
+=======
+
+* 管理SESSION。

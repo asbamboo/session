@@ -1,5 +1,5 @@
 <?php
-namespace dolibuild\session;
+namespace asbamboo\session;
 
 /**
  * Session 接口
@@ -11,28 +11,43 @@ interface SessionInterface
     /**
      * 设置session value
      * $_SESSION[$name] = $value
+     * 
      * @param string $name
      * @param string|array $value
-     * @return self
+     * @return SessionInterface
      */
-    public function set(string $name, $value) : self;
+    public function set(string $name, $value) : SessionInterface;
 
     /**
      * 获取session value
      * 返回 $_SESSION[$name]
+     * 
      * @param string $name
+     * @return mixed
      */
-    public function get(string $name);
+    public function get(string $name)/* : mixed*/;
 
     /**
      * 启动 session_start();
+     * 
      * @param array $options
      * @return bool
      */
     public function start(array $options=[]) : bool;
+    
+    /**
+     * 释放session所有变量
+     * 调用session_unset()
+     * 
+     * @return void
+     */
+    public function unset() : void;
 
     /**
      * 保存session
+     * 调用session_write_close();
+     * 
+     * @return void
      */
-    public function save() : bool;
+    public function save() : void;
 }
