@@ -52,7 +52,7 @@ class PdoHandler extends AbstractHandler
         $this->table        = $options['table'] ?? 'session';
         $this->col_id       = $options['col_id'] ?? 'sid';
         $this->col_data     = $options['col_data'] ?? 'data';
-        $this->col_time  = $options['col_time'] ?? 'time';
+        $this->col_time     = $options['col_time'] ?? 'time';
     }
 
     /**
