@@ -15,13 +15,14 @@ class Session implements SessionInterface
      *
      * @param SessionHandlerInterface $sessionHandler
      */
-    public function __construct(SessionHandlerInterface $sessionHandler = NULL)
+    public function __construct(SessionHandlerInterface $sessionHandler = NULL, array $option = [])
     {
         session_register_shutdown();
 
         if($sessionHandler){
             session_set_save_handler($sessionHandler);
         }
+        $this->start($option);
     }
 
     /**
