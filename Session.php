@@ -5,7 +5,7 @@ use asbamboo\session\handler\SessionHandlerInterface;
 
 /**
  * session 管理 自定义session handler
- * 
+ *
  * @author 李春寅 <licy2013@aliyun.com>
  * @since 2018年3月10日
  */
@@ -15,13 +15,14 @@ class Session implements SessionInterface
      *
      * @param SessionHandlerInterface $sessionHandler
      */
-    public function __construct(SessionHandlerInterface $sessionHandler = NULL)
+    public function __construct(SessionHandlerInterface $sessionHandler = NULL, array $option = [])
     {
         session_register_shutdown();
 
         if($sessionHandler){
             session_set_save_handler($sessionHandler);
         }
+        $this->start($option);
     }
 
     /**
@@ -52,11 +53,14 @@ class Session implements SessionInterface
      */
     public function start(array $option = []) : bool
     {
+        if(session_status() == PHP_SESSION_ACTIVE){
+            return true;
+        }
         return session_start($option);
     }
 
     /**
-     * 
+     *
      * {@inheritDoc}
      * @see \asbamboo\session\SessionInterface::unset()
      */
