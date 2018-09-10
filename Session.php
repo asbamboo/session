@@ -53,7 +53,7 @@ class Session implements SessionInterface
      */
     public function start(array $option = []) : bool
     {
-        if(session_status() == PHP_SESSION_ACTIVE){
+        if(in_array(session_status(), [PHP_SESSION_ACTIVE, PHP_SESSION_NONE])){
             return true;
         }
         return session_start($option);
