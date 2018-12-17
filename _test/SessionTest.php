@@ -11,17 +11,35 @@ use asbamboo\session\handler\PdoHandler;
  * @since 2018年3月10日
  */
 class SessionTest extends TestCase
-{   
+{
+    public function testSetIdAndGetId()
+    {
+        session_write_close();
+        $session    = new Session(null, [], false);
+        $id         = uniqid();
+        $session    = $session->setId($id);
+        $this->assertEquals($id, $session->getId());
+    }
+
+    public function testSetNameAndGetName()
+    {
+        session_write_close();
+        $session    = new Session(null, [], false);
+        $name         = uniqid();
+        $session    = $session->setName($name);
+        $this->assertEquals($name, $session->getName());
+    }
+
     public function testStart()
     {
         session_write_close();
         $session        = new Session();
-        
+
         $started    = $session->start();
         $this->assertTrue($started);
         return $session;
     }
-    
+
     /**
      * @depends testStart
      */
@@ -32,7 +50,7 @@ class SessionTest extends TestCase
         $this->assertEquals($_SESSION['test_now'], $test_now);
         return $test_now;
     }
-    
+
     /**
      * @depends testStart
      * @depends testSet
@@ -51,7 +69,7 @@ class SessionTest extends TestCase
         $session->save();
         $this->assertTrue(true);
     }
-    
+
     /**
      * @depends testStart
      */
