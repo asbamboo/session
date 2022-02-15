@@ -13,7 +13,7 @@ class PdoHandlerTest extends TestCase
 {
     public $pdo;
     public $handler;
-    
+
     public function setUp()
     {
         try{
@@ -25,7 +25,7 @@ class PdoHandlerTest extends TestCase
         }
         $this->handler  = new PdoHandler($this->pdo);
     }
-    
+
     public function testOpen()
     {
         if(session_status() != PHP_SESSION_ACTIVE){
@@ -33,54 +33,54 @@ class PdoHandlerTest extends TestCase
         }
         $this->assertTrue($this->handler->open('','sid'));
     }
-    
+
     public function testReadBeforeWrite()
     {
         $sid        = session_create_id('asbamboo-unitest');
-        
+
         session_id($sid);
         $this->assertEquals($this->handler->read($sid), '');
     }
-    
+
     public function testWrite()
-    {        
+    {
         $session['write_time']  = time();
         $session['sid']         = session_id();
-        
+
         $_SESSION               = $session;
-        $encoded_session        = session_encode(); 
-        
+        $encoded_session        = session_encode();
+
         $this->assertTrue($this->handler->write($session['sid'], $encoded_session));
-        
+
         session_write_close();
-        
+
         return $session;
     }
-    
+
     /**
      * @depends testWrite
      */
     public function testReadAfterWrite($session)
     {
         session_start();
-        $sid    = $session['sid'];        
+        $sid    = $session['sid'];
         $sesson = $this->handler->read($sid);
         session_decode($sesson);
         $this->assertEquals($_SESSION['write_time'], $session['write_time']);
     }
-    
+
     public function testDestroy()
     {
         $sid    = session_id();
         $this->assertTrue($this->handler->open('','sid'));
         $this->assertTrue($this->handler->destroy($sid));
     }
-    
+
     public function testClose()
     {
         $this->assertTrue($this->handler->close());
     }
-    
+
     public function testGc()
     {
         $sid    = session_id();
@@ -91,5 +91,5 @@ class PdoHandlerTest extends TestCase
     {
         $sid    = session_id();
         $this->assertGreaterThanOrEqual(0, $this->handler->count());
-    }    
+    }
 }
